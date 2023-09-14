@@ -1,0 +1,46 @@
+#root {
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .input{
+    padding: 0.65rem 0.5rem;
+    font-size: 1rem;
+    width: 18rem;
+    height: 3rem;
+    border: 2px solid gray;
+    border-radius: 10px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  
+  .input:focus{
+    border:  rgb(101, 101, 241)
+  }
+  
+  button[type='submit']{
+    width: 18rem;
+    height: 3rem;
+  } 
+  /* button:focus{
+    background-color:  rgb(101, 101, 241);
+  color: white;
+  border: none;
+  } */
+
+  .error {
+    font-size: 12px;
+    color: red;
+    margin-top: 0.25rem;
+  }
+
+  .form-center{
+    width: 22rem;
+    height: 32rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
