@@ -17,7 +17,7 @@ export const RegisterComponent = ()=>{
                      .email('Invalid username')
                      .required('Required'),
                      password: Yup.string()
-                     .max(4, 'Must be 4 characters or more')
+                     .min(4, 'Must be 4 characters or more')
                      .required('Required'),
                   })}          
                   onSubmit={values => {

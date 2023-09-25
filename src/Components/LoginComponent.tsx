@@ -13,9 +13,10 @@ export const LoginComponent = ()=>{
     const validateUser = (loginData: auth)=>{ 
       const userLoggedIn : any = userList.find((user: userType) => (user.userName === loginData.userName 
         && user.password === loginData.password));
-
-        localStorage.setItem('isLoggedIn', 'true');
-        navigate('/dashboard');
+        // if(userLoggedIn){
+        //   localStorage.setItem('isLoggedIn', 'true');
+        //   navigate('/dashboard');
+        // }
         dispatch(login(loginData));
        
     }
@@ -46,7 +47,7 @@ export const LoginComponent = ()=>{
               </div>
               <div className="mb-3 d-flex flex-column">
                 <label className=" d-flex" htmlFor="password">Password:</label>
-                <Field className='input' name="password" type="text" />
+                <Field className='input' name="password" type="password" />
                 <ErrorMessage className='error' name="password" />
               </div>
 

@@ -1,26 +1,23 @@
 import React from 'react'
-import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { NewTaskComponent } from './NewTaskComponent';
+import { taskType } from '../Redux/Actions/indexAction';
+import { useSelector } from 'react-redux';
 
-export function PopupComponent(props:{taskId: number, showPopup:boolean}) {
-  //console.log(props.taskId, props.showPopup)
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+export function PopupComponent(props:{handleClose: () => any, taskId: number, showPopup:boolean,}) {
+  const taskList: taskType[] = useSelector((state: any)=> state.taskReducer); 
+  const task: taskType | undefined = taskList.find((reduxTask: taskType) => (reduxTask.taskId === props.taskId))
+  const taskData = task === undefined ? {taskId:0, title:'', description:'', dueDate:'', priority:'', assignTo:0} :
+                        task;
   return (
     <>
-      <div className='mt-2 mb-2 d-flex justify-content-end'>
-         <button onClick={handleShow} className='btn btn-primary shadow-lg'>+ Add task</button>
-      </div>
-      <Modal size='lg' show={show} onHide={handleClose} backdrop="static" keyboard={false}>
+      <Modal size='lg' show={props.showPopup} onHide={props.handleClose} backdrop="static" keyboard={false}>
         <Modal.Header closeButton>
-          <Modal.Title>{props.taskId !== undefined && props.taskId > 0 ? 'Edit task' : 'New task'}</Modal.Title>
+          <Modal.Title>{props.taskId > 0 ?'Edit task:' : 'New task:'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-           <NewTaskComponent handleClose={handleClose} />
-        </Modal.Body>
-        
+           <NewTaskComponent fromProps={taskData} taskIdValue={props.taskId} handleClose={props.handleClose} />
+        </Modal.Body>    
       </Modal>
     </>
   );

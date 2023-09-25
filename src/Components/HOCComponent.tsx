@@ -13,4 +13,4 @@ import { LoginComponent } from "./LoginComponent"
 
 export default HocComponent
 
-export const MyContext = createContext<number | undefined>(undefined);
+export const MyContext = createContext<any>(undefined);

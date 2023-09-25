@@ -14,7 +14,8 @@ export interface taskType {
     description : string,
     dueDate : string,
     priority : string,
-    assignTo : string
+    assignTo : number,
+    //assignToName: string
 }
 export const addUser=(user: auth)=>{
     return {

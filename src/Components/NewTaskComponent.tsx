@@ -4,18 +4,41 @@ import { addTask, editTask, userType, taskType } from "../Redux/Actions/indexAct
 import { useDispatch, useSelector } from "react-redux";
 import { Modal, Button } from "react-bootstrap";
 
-export const NewTaskComponent =(props: {taskIdValue?: number, handleClose:Function})=>{
+export interface taskCoponentProps{
+  fromProps: taskType,
+  taskIdValue?: number,
+   handleClose:()=>any
+}
+export const NewTaskComponent =(props: taskCoponentProps)=>{
   const dispatch = useDispatch();
   const userList : userType[] = useSelector((state :any) => state.userReducer);
-  const taskList: taskType[] = useSelector((state: any)=> state.taskReducer); 
-  const task: taskType | undefined = taskList.find((reduxTask: taskType) => (reduxTask.taskId === props.taskIdValue))
+  const saveTaskInDB =(task:taskType)=>{
+    let url = 'https://localhost:44310/api/savetask';
+    fetch( url ,{
+        method:'post',
+        mode:'cors',
+        headers:{
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(task),
+    })
+    .then((response)=> response.json())
+    .then((data)=>{
+      if(!(task.taskId > 0)){
+        dispatch(addTask(task));
+      }
+      else{
+        dispatch(editTask(task));
+      }
+    })
+    .catch((error)=>{alert(error);
+    });
+  }
   return(
         <>
         <Formik 
-          initialValues={task === undefined ? 
-            {taskId: 0, title:'', description:'', dueDate:'', priority:'', assignTo:''}:
-            {taskId: task.taskId, title:task.title, description:task.description, dueDate:task.dueDate, priority:task.priority, assignTo:task.assignTo}} 
-          validationSchema={Yup.object({
+           initialValues ={{ ...props.fromProps}}
+            validationSchema={Yup.object({
             title: Yup.string()
               .min(1,'Invalid title')
               .required('Enter title'),
@@ -34,13 +57,9 @@ export const NewTaskComponent =(props: {taskIdValue?: number, handleClose:Functi
               .required('Select assign to')
              })}          
           onSubmit={(values, {resetForm}) => {
-            if(!(values.taskId > 0)){
-              dispatch(addTask(values));
-            }
-            else{
-              dispatch(editTask(values));
-            }
-            resetForm({values:{ taskId:0, title:'', description:'', dueDate:'', priority:'', assignTo:''}})
+            saveTaskInDB(values)
+
+            resetForm({values:{ taskId:0, title:'', description:'', dueDate:'', priority:'', assignTo:0}})
             props.handleClose();
           }}
         >
@@ -96,8 +115,8 @@ export const NewTaskComponent =(props: {taskIdValue?: number, handleClose:Functi
               </div>
 
                   <Modal.Footer>
-                      <Button variant="secondary" onClick={props.handleClose()}>Close</Button>
-                      <button className="btn btn-primary shadow-lg mb-3" type="submit">Create task</button>   
+                      <Button variant="secondary" onClick={()=>props.handleClose()}>Close</Button>
+                      <Button className="btn btn-primary shadow-lg mb-3" type="submit">Save task</Button>   
                    </Modal.Footer>
                    
           </Form>

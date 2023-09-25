@@ -4,9 +4,10 @@ const initialTask: taskType[] = []
 
 const taskReducer =(state : taskType[] = initialTask, action : any)=>{
    switch(action.type){
-    case 'ADD_TASK': action.payload.taskId = state.length + 1;
+    case 'ADD_TASK': //action.payload.taskId = state.length + 1;
                      return [...state, action.payload];
-    case 'DEL_TASK': state.splice(action.payload, 1)
+    case 'DEL_TASK': const index = state.findIndex(item=> item.taskId === action.payload)
+                     state.splice(index, 1)
                      return [...state];
     case 'EDIT_TASK': const updatedTasks =  state.map((task)=> task.taskId === action.payload.taskId ? 
                                             action.payload : task)
