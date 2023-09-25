@@ -10,8 +10,10 @@ export interface taskCoponentProps{
    handleClose:()=>any
 }
 export const NewTaskComponent =(props: taskCoponentProps)=>{
+  console.log(props.fromProps);
   const dispatch = useDispatch();
   const userList : userType[] = useSelector((state :any) => state.userReducer);
+  console.log(userList);
   const saveTaskInDB =(task:taskType)=>{
     let url = 'https://localhost:44310/api/savetask';
     fetch( url ,{
@@ -59,7 +61,7 @@ export const NewTaskComponent =(props: taskCoponentProps)=>{
           onSubmit={(values, {resetForm}) => {
             saveTaskInDB(values)
 
-            resetForm({values:{ taskId:0, title:'', description:'', dueDate:'', priority:'', assignTo:0}})
+            resetForm({values:{ taskId:0, title:'', description:'', dueDate:'', priority:'', assignTo:0, assignToName:'', assignedBy:0}})
             props.handleClose();
           }}
         >
@@ -106,7 +108,7 @@ export const NewTaskComponent =(props: taskCoponentProps)=>{
                              <option value=''>--Select assign to--</option>
                              {
                               userList.map((item, index)=>{
-                                return <option key={index} value={item.userId}>{item.userName}</option>
+                                return <option key={index} value={item.userId}>{item.fullName}</option>
                               })
                              }
                         </Field>

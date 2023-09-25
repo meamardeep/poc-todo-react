@@ -3,22 +3,39 @@ import * as Yup from 'yup';
 import '../Styles/common/form.css'
 import {Link, useNavigate} from 'react-router-dom'
 import { useDispatch } from "react-redux";
-import { auth, login, userType } from "../Redux/Actions/indexAction";
-import { useSelector } from "react-redux";
+import { auth, login } from "../Redux/Actions/indexAction";
 export const LoginComponent = ()=>{
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const userList : userType[] = useSelector((state :any) => state.userReducer)
 
     const validateUser = (loginData: auth)=>{ 
-      const userLoggedIn : any = userList.find((user: userType) => (user.userName === loginData.userName 
-        && user.password === loginData.password));
-        // if(userLoggedIn){
-        //   localStorage.setItem('isLoggedIn', 'true');
-        //   navigate('/dashboard');
-        // }
-        dispatch(login(loginData));
-       
+      alert(JSON.stringify(loginData))
+      let url = 'https://localhost:44310/api/login';
+        fetch( url ,{
+            method:'post',
+            mode:'cors',
+            headers:{
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(loginData),
+        })
+        .then((response)=> response.json())
+        .then((data)=>{
+          if(data.userId > 0)
+          {
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userId', data.userId);
+            dispatch(login(loginData));
+            navigate('/dashboard');
+          }
+          else{
+            navigate('/login');
+          }
+        })
+        .catch((error)=>{console.error(error);
+        });
+      //const userLoggedIn : any = userList.find((user: userType) => (user.userName === loginData.userName 
+       // && user.password === loginData.password));       
     }
     return(
      <>

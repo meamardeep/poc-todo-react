@@ -6,7 +6,7 @@ export interface auth{
 export interface userType{
     userId: number,
     userName:string,
-    password:string
+    fullName:string
 }
 export interface taskType {
     taskId: number,
@@ -15,9 +15,10 @@ export interface taskType {
     dueDate : string,
     priority : string,
     assignTo : number,
-    //assignToName: string
+    assignToName: string,
+    assignedBy: number
 }
-export const addUser=(user: auth)=>{
+export const addUser=(user: userType)=>{
     return {
         type: 'ADD_USER',
         payload: user

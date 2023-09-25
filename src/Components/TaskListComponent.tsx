@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { taskType } from '../Redux/Actions/indexAction';
+import { addUser, taskType, userType } from '../Redux/Actions/indexAction';
 import { FiEdit,FiTrash2 } from 'react-icons/fi';
 import { useDispatch } from 'react-redux';
 import { deleteTask } from '../Redux/Actions/indexAction';
@@ -12,7 +12,8 @@ export const TaskListComponent = (props:{editTask:Function})=>{
     const dispatch = useDispatch();
     
     useEffect(()=>{
-      let url = 'https://localhost:44310/api/gettasks';
+      const userId = localStorage.getItem('userId');
+      let url = 'https://localhost:44310/api/gettasks/'+userId;
         fetch( url ,{
             method:'get',
             mode:'cors',
@@ -24,11 +25,32 @@ export const TaskListComponent = (props:{editTask:Function})=>{
         .then((data)=>{
           data.forEach((element:taskType) => {
             dispatch(addTask(element));
-          });          
+          });  
+          getUserList();        
         })
         .catch((error)=>{console.error(error);
         });
     }, [])
+
+    const getUserList =()=>{
+      const userId = localStorage.getItem('userId');
+      let url = 'https://localhost:44310/api/getUsers/'+userId;
+        fetch( url ,{
+            method:'get',
+            mode:'cors',
+            headers:{
+                "Content-Type": "application/json"
+            },
+        })
+        .then((response)=> response.json())
+        .then((data)=>{
+          data.forEach((user:userType) => {
+            dispatch(addUser(user))
+          });
+        })
+        .catch((error)=>{console.error(error);
+        });
+    }
     const removeTask =(taskId: number)=>{
       console.log(taskId);
       let url = 'https://localhost:44310/api/deletetask?taskId='+taskId;
@@ -59,7 +81,7 @@ export const TaskListComponent = (props:{editTask:Function})=>{
                <th>Description</th>
                <th>Due date</th>
                <th>Priority</th>
-               <th>Assigned to</th>
+               <th>Assigned to name</th>
                <th>Edit</th>
                <th>Delete</th>
              </tr>
@@ -72,7 +94,7 @@ export const TaskListComponent = (props:{editTask:Function})=>{
                 <td>{item.description}</td>
                 <td>{item.dueDate}</td>
                 <td>{item.priority}</td>
-                <td>{item.assignTo}</td>
+                <td>{item.assignToName}</td>
                 <td onClick={()=>props.editTask(item.taskId)} style={{cursor:'pointer'}}><FiEdit className=' text-primary'/></td>
                 <td onClick={()=>removeTask(item.taskId)}  style={{cursor:'pointer'}}><FiTrash2 className=' text-primary'/></td>    
               </tr>

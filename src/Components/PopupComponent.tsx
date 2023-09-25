@@ -7,8 +7,9 @@ import { useSelector } from 'react-redux';
 export function PopupComponent(props:{handleClose: () => any, taskId: number, showPopup:boolean,}) {
   const taskList: taskType[] = useSelector((state: any)=> state.taskReducer); 
   const task: taskType | undefined = taskList.find((reduxTask: taskType) => (reduxTask.taskId === props.taskId))
-  const taskData = task === undefined ? {taskId:0, title:'', description:'', dueDate:'', priority:'', assignTo:0} :
-                        task;
+  const taskData = task === undefined ? 
+              {taskId:0, title:'', description:'', dueDate:'', priority:'', assignTo:0, assignToName:'', assignedBy:0} :
+              task;
   return (
     <>
       <Modal size='lg' show={props.showPopup} onHide={props.handleClose} backdrop="static" keyboard={false}>

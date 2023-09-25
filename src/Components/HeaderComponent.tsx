@@ -9,6 +9,8 @@ export const HeaderComponent =()=>{
 
     function logout(){
         dispatch(logOut())
+        localStorage.removeItem('isLoggedIn')
+        localStorage.removeItem('userId')
         navigate('/login')
      }
     return(

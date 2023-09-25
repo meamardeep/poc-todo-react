@@ -8,7 +8,7 @@ const initialState: auth = {
  function authReducer(state : auth = initialState, action : any){
 switch(action.type){
     case 'LOGIN': return state = action.payload;
-    case 'LOGOUT': localStorage.setItem('isLoggedIn', 'false')
+    case 'LOGOUT': 
                    return state = initialState;
     default : return state;
 }
