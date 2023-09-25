@@ -7,11 +7,8 @@ import { TaskListComponent } from './TaskListComponent';
 export const DashboardComponent = () =>{  
   const [show, setShow] = useState(false);
   const [taskId, setTaskId] = useState(0);
-  const handleClickShow=()=>{
-    setShow(true)
-  }
   const editTask=(taskId: number)=>{
-    console.log(taskId)
+    alert(`in dashboard componenet:${taskId}`)
       setTaskId(taskId);
       setShow(true);
   }
@@ -19,7 +16,7 @@ export const DashboardComponent = () =>{
     <> 
       <HeaderComponent/>
       <PopupComponent taskId={taskId} showPopup={show}/>
-      <TaskListComponent  editTask={editTask}/>
+      <TaskListComponent />
     </>
   )
 }

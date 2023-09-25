@@ -1,11 +1,11 @@
-import React, {useContext} from 'react'
-import { useEffect, useState } from 'react';
+import React from 'react'
+import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { NewTaskComponent } from './NewTaskComponent';
 
 export function PopupComponent(props:{taskId: number, showPopup:boolean}) {
-  console.log(props.taskId, props.showPopup)
-  const [show, setShow] = useState(props.showPopup);
+  //console.log(props.taskId, props.showPopup)
+  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   return (

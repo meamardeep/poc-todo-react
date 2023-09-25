@@ -4,7 +4,7 @@ import { FiEdit,FiTrash2 } from 'react-icons/fi';
 import { useDispatch } from 'react-redux';
 import { deleteTask } from '../Redux/Actions/indexAction';
 
-export const TaskListComponent = (props:{editTask:any})=>{
+export const TaskListComponent = ()=>{
     const taskList: taskType[] = useSelector((state: any)=>state.taskReducer)
     const dispatch = useDispatch();
     
@@ -37,7 +37,7 @@ export const TaskListComponent = (props:{editTask:any})=>{
                 <td>{item.dueDate}</td>
                 <td>{item.priority}</td>
                 <td>{item.assignTo}</td>
-                <td onClick={props.editTask(1)} style={{cursor:'pointer'}}><FiEdit className=' text-primary'/></td>
+                <td style={{cursor:'pointer'}}><FiEdit className=' text-primary'/></td>
                 <td onClick={()=>removeTask(index)}  style={{cursor:'pointer'}}><FiTrash2 className=' text-primary'/></td>
                 
                 </tr>

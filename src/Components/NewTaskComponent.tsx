@@ -9,12 +9,10 @@ export const NewTaskComponent =(props: {taskIdValue?: number, handleClose:Functi
   const userList : userType[] = useSelector((state :any) => state.userReducer);
   const taskList: taskType[] = useSelector((state: any)=> state.taskReducer); 
   const task: taskType | undefined = taskList.find((reduxTask: taskType) => (reduxTask.taskId === props.taskIdValue))
-  const handleClose=()=>{
-  }
   return(
         <>
         <Formik 
-          initialValues={task == undefined ? 
+          initialValues={task === undefined ? 
             {taskId: 0, title:'', description:'', dueDate:'', priority:'', assignTo:''}:
             {taskId: task.taskId, title:task.title, description:task.description, dueDate:task.dueDate, priority:task.priority, assignTo:task.assignTo}} 
           validationSchema={Yup.object({
