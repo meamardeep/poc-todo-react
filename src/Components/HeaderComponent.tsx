@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { logOut } from '../Redux/Actions/indexAction';
+import { logOut, clearTask, clearUser } from '../Redux/Actions/indexAction';
 import { useNavigate } from 'react-router-dom';
 
 export const HeaderComponent =()=>{
@@ -9,6 +9,8 @@ export const HeaderComponent =()=>{
 
     function logout(){
         dispatch(logOut())
+        dispatch(clearTask())
+        dispatch(clearUser())
         localStorage.removeItem('isLoggedIn')
         localStorage.removeItem('userId')
         navigate('/login')

@@ -8,7 +8,7 @@ export function PopupComponent(props:{handleClose: () => any, taskId: number, sh
   const taskList: taskType[] = useSelector((state: any)=> state.taskReducer); 
   const task: taskType | undefined = taskList.find((reduxTask: taskType) => (reduxTask.taskId === props.taskId))
   const taskData = task === undefined ? 
-              {taskId:0, title:'', description:'', dueDate:'', priority:'', assignTo:0, assignToName:'', assignedBy:0} :
+              {taskId:0, title:'', description:'', dueDate:'', priority:'', assignTo:0, assignToName:'', createdBy:0, createdByName:''} :
               task;
   return (
     <>

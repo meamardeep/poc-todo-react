@@ -9,7 +9,6 @@ export const LoginComponent = ()=>{
     const navigate = useNavigate();
 
     const validateUser = (loginData: auth)=>{ 
-      alert(JSON.stringify(loginData))
       let url = 'https://localhost:44310/api/login';
         fetch( url ,{
             method:'post',

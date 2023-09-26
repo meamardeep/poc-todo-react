@@ -16,12 +16,18 @@ export interface taskType {
     priority : string,
     assignTo : number,
     assignToName: string,
-    assignedBy: number
+    createdBy: number,
+    createdByName: string
 }
 export const addUser=(user: userType)=>{
     return {
         type: 'ADD_USER',
         payload: user
+    }
+}
+export const clearUser = ()=>{
+    return{
+        type: 'CLEAR_USER'
     }
 }
 export const login =(data: auth)=>{
@@ -51,9 +57,36 @@ export const deleteTask =(index: number)=>{
     }
 }
 
+export const cancelTaskAction =(taskId: number)=>{
+    fetch( 'https://localhost:44310/api/canceltask?taskId='+taskId ,{
+            method:'put',
+            mode:'cors',
+            headers:{
+                "Content-Type": "application/json"
+            },
+        })
+        .then((response)=> response.json())
+        .then((data)=>{
+            
+        })
+        .catch((error)=>{console.error(error);
+        });
+        
+    return {
+        type : 'DEL_TASK',
+        payload: taskId
+    }
+}
+
 export const editTask = (taskTobeEdited: taskType)=>{
    return{
      type: 'EDIT_TASK',
      payload: taskTobeEdited
    }
+}
+
+export const clearTask = ()=>{
+    return{
+        type: 'CLEAR_TASK'
+    }
 }

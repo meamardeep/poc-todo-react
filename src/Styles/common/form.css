@@ -20,8 +20,8 @@
     border:  rgb(101, 101, 241)
   }
   
-  button[type='submit']{
-    width: 18rem;
+  button{
+    width: 8rem;
     height: 3rem;
   } 
   /* button:focus{

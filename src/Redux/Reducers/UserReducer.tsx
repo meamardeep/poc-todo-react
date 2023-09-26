@@ -10,6 +10,7 @@ const initialState: userType[] = []
 const userReducer = (state: userType[] = initialState, action: any) => {
     switch(action.type){
         case 'ADD_USER': return [...state, action.payload]
+        case 'CLEAR_USER': return state = []
         default : return state;
     }
 }

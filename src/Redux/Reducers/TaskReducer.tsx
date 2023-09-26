@@ -1,3 +1,4 @@
+import { stat } from "fs";
 import { taskType } from "../Actions/indexAction";   
 
 const initialTask: taskType[] = []
@@ -13,7 +14,7 @@ const taskReducer =(state : taskType[] = initialTask, action : any)=>{
                                             action.payload : task)
                      state = updatedTasks;
                       return [...state];
-                      
+    case 'CLEAR_TASK': return state = [];                  
     default: return [...state];
    }
 }

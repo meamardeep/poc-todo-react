@@ -10,11 +10,11 @@ export interface taskCoponentProps{
    handleClose:()=>any
 }
 export const NewTaskComponent =(props: taskCoponentProps)=>{
-  console.log(props.fromProps);
+  alert(JSON.stringify(props.fromProps))
   const dispatch = useDispatch();
   const userList : userType[] = useSelector((state :any) => state.userReducer);
-  console.log(userList);
   const saveTaskInDB =(task:taskType)=>{
+    task.createdBy = task.createdBy == 0 ? (localStorage.getItem('userId')) as unknown as number : task.createdBy;
     let url = 'https://localhost:44310/api/savetask';
     fetch( url ,{
         method:'post',
@@ -61,16 +61,17 @@ export const NewTaskComponent =(props: taskCoponentProps)=>{
           onSubmit={(values, {resetForm}) => {
             saveTaskInDB(values)
 
-            resetForm({values:{ taskId:0, title:'', description:'', dueDate:'', priority:'', assignTo:0, assignToName:'', assignedBy:0}})
+            resetForm({values:{ taskId:0, title:'', description:'', dueDate:'', priority:'', assignTo:0, assignToName:'', createdBy:0, createdByName:''}})
             props.handleClose();
           }}
         >
           <Form className=''>
-
+            
             <div className='mb-2 d-flex flex-row justify-content-around'>
               <Field type='hidden' name='taskId' />
+              <Field type='hidden' name='createdBy' />
               <div className='mt-3 mb-2 w-100'>
-                 <label htmlFor="title">Task title:</label>
+                 <label htmlFor="title">Task title: &nbsp;</label>
                  <Field  className='input' name="title" type="text" />
                  <ErrorMessage  name="title" />
               </div>
@@ -84,13 +85,13 @@ export const NewTaskComponent =(props: taskCoponentProps)=>{
               
             <div className='d-flex flex-row justify-content-around'>
               <div className=' mb-2 w-100'>
-                   <label htmlFor="dueDate">Due Date:</label>
+                   <label htmlFor="dueDate">Due Date :</label>
                    <Field className='input' name="dueDate" type="date" />
                    <ErrorMessage className='error' name="dueDate" />
               </div>
             
                <div className=' mb-2 w-100'>
-                    <label htmlFor="priority">Priority:</label>
+                    <label htmlFor="priority">Priority: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                     <Field className='input' as='select' name="priority">
                          <option value=''>--Select priority--</option>
                          <option value="Low">Low</option>
@@ -102,8 +103,8 @@ export const NewTaskComponent =(props: taskCoponentProps)=>{
             </div>
             
              <div className='d-flex flex-row justify-content-around mb-2'>
-                  <div className=' mb-3'>
-                       <label htmlFor="assignTo">Assign to:</label>
+                  <div className=' mb-3 w-100'>
+                       <label htmlFor="assignTo">Assign to : </label>
                        <Field className='input' as='select' name="assignTo" >
                              <option value=''>--Select assign to--</option>
                              {
@@ -114,12 +115,16 @@ export const NewTaskComponent =(props: taskCoponentProps)=>{
                         </Field>
                         <ErrorMessage className='error' name="assignTo" />
                   </div>
+
+                  <div className="mb-3 w-100">
+
+                  </div>
               </div>
 
                   <Modal.Footer>
-                      <Button variant="secondary" onClick={()=>props.handleClose()}>Close</Button>
-                      <Button className="btn btn-primary shadow-lg mb-3" type="submit">Save task</Button>   
-                   </Modal.Footer>
+                      <Button className="btn btn-secondary" onClick={()=>props.handleClose()}>Close</Button>
+                      <Button className="btn btn-primary shadow-lg" type="submit">Save task</Button>   
+                  </Modal.Footer>
                    
           </Form>
        </Formik>
