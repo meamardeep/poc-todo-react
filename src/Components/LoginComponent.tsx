@@ -38,6 +38,9 @@ export const LoginComponent = ()=>{
     }
     return(
      <>
+     <div>
+      <h2>Login</h2>
+     </div>
      <div style={{display:'flex', justifyContent:'center',alignContent:'center'}}>
        <Formik 
           initialValues={{ userName:'', password:''}} 
